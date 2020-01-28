@@ -185,3 +185,14 @@ make depend && make && make run
 clear
 make depend && make && make run
 ls
+cd csc501-lab1/compile/
+clear
+ls
+clear
+ls
+clear
+cd
+git add -A
+git commit -m "implemented random scheduler but not tested"
+git push origin master
+clear

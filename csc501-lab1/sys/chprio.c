@@ -22,6 +22,7 @@ SYSCALL chprio(int pid, int newprio)
 		return(SYSERR);
 	}
 	pptr->pprio = newprio;
+  //todo update ready queue
 	restore(ps);
 	return(newprio);
 }

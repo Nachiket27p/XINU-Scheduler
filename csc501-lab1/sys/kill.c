@@ -8,6 +8,7 @@
 #include <io.h>
 #include <q.h>
 #include <stdio.h>
+#incldue <lab1.h>
 
 /*------------------------------------------------------------------------
  * kill  --  kill a process and remove it from the system
@@ -48,6 +49,10 @@ SYSCALL kill(int pid)
 	case PRWAIT:	semaph[pptr->psem].semcnt++;
 
 	case PRREADY:	dequeue(pid);
+      // If process is being removed from the ready queue
+      // and random scheduler is being used than decrease the priority total
+      if(getschedclass() == RANDOMSCHED)
+        decPrioTot(pptr->pprio);
 			pptr->pstate = PRFREE;
 			break;
 

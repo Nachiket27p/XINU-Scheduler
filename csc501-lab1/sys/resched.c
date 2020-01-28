@@ -40,7 +40,7 @@ int resched()
       int currPrio = q[tail].qkey;
       // if current priotity is non-zero (not null process) and greater than the random number generated
       // move to next process in the queue.
-      while(currPrio && currPrio >= rn) {
+      while(currPrio && rn >= currPrio) {
         rn -= currPrio;
         tail = q[tail].qprev;
         currPrio = q[tail].qkey;
@@ -52,6 +52,7 @@ int resched()
       // remove process from the ready queue and
       q[q[tail].qprev].qnext = q[tail].qnext;
       q[q[tail].qnext].qprev = q[tail].qprev;
+      readyQPriorityTotal -= currPrio;
      
      /*
       struct qent *rmv = &q[tail];
