@@ -25,18 +25,47 @@ int resched()
 	register struct	pentry	*nptr;	/* pointer to new process entry */
 
   if(activeScheduler == RANDOMSCHED) {// random scheduler
-    // generate a random number between (inclusive) : 0 - (readyQPriorityTotal - 1)
-    int rn = rand()%(readyQPriorityTotal-1);
     // get the PCB for currently running process
     optr = &proctab[currpid];
-    
-    // get tail entry of ready queue
-    struct	qent	*curptr = &q[rdytail];
-    int currPrio = curptr->qkey;
-    while(currPrio != MININT && currPrio >= rn) {
-      rn -= curptr->qkey;
-      //TODO
+    // if there is other process in the ready queue except null process switch to null process
+    if(!readyQPriorityTotal) {
+      nptr = &proctab[getfirst(rdyhead)];
+      nptr->pstate = PRCURR;
+    } else {
+      // generate a random number between (inclusive) : 0 - (readyQPriorityTotal - 1)
+      int rn = rand()%(readyQPriorityTotal-1);  
+      
+      // get tail entry of ready queue
+      int tail = q[rdytail].qprev;
+      int currPrio = q[tail].qkey;
+      // if current priotity is non-zero (not null process) and greater than the random number generated
+      // move to next process in the queue.
+      while(currPrio && currPrio >= rn) {
+        rn -= currPrio;
+        tail = q[tail].qprev;
+        currPrio = q[tail].qkey;
+      }
+      // make it the current process
+      currpid = tail;
+      nptr = &proctab[tail];
+      nptr->pstate = PRCURR;
+      // remove process from the ready queue and
+      q[q[tail].qprev].qnext = q[tail].qnext;
+      q[q[tail].qnext].qprev = q[tail].qprev;
+     
+     /*
+      struct qent *rmv = &q[tail];
+	    q[rmv->qprev].qnext = rmv->qnext;
+	    q[rmv->qnext].qprev = rmv->qprev;
+     */
     }
+    
+    // put the old process back into the ready queue
+    if (optr->pstate == PRCURR) {
+		  optr->pstate = PRREADY;
+		  insert(currpid,rdyhead,optr->pprio);
+      readyQPriorityTotal += optr->pprio;
+	  }
     
     
   } else if(activeScheduler == LINUXSCHED) {//linux like scheduler
