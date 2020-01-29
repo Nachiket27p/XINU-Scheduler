@@ -274,3 +274,32 @@ cd ..
 cd compile/
 make depend && make && make run
 exit
+git add -A
+git commit -m "random scheduler broken"
+git push origin master
+cd csc501-lab1/compile/
+make depend && make && make run
+exit
+make debug
+cd csc501-lab1/compile/
+make depend && make
+make debug
+csdasdexit
+exit
+gdb xinu.elf
+cd csc501-lab1/compile/
+gdb xinu.elf
+cd
+gdb xinu.elf
+cd csc501-lab1/compile/
+make debug
+exit
+cs csc501-lab1/compile/
+cd csc501-lab1/compile/
+make depend && make
+make run
+exit
+cd csc501-lab1/compile/
+make depend && make && make run
+cd
+exit

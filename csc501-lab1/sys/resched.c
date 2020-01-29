@@ -21,20 +21,28 @@ extern int ctxsw(int, int, int, int);
  */
 int resched()
 {
+  readyQPriorityTotal = 0;
+  
 	register struct	pentry	*optr;	/* pointer to old process entry */
 	register struct	pentry	*nptr;	/* pointer to new process entry */
   
   if(activeScheduler == RANDOMSCHED) {// random scheduler
-    // get total of priority in ready queue
-    int tmp = getlast(rdytail);
-    while(tmp) {
-      readyQPriorityTotal += q[tmp].qkey;
-      tmp = q[tmp].qprev;
-    }
-    
-    kprintf("%d\n", readyQPriorityTotal);
     // get the PCB for currently running process
     optr = &proctab[currpid];
+    // put the old process back into the ready queue
+    if (optr->pstate == PRCURR) {
+		  optr->pstate = PRREADY;
+		  insert(currpid,rdyhead,optr->pprio);
+	  }
+    // get total of priority in ready queue
+    int curr = q[rdytail].qprev;
+    while(curr) {
+      readyQPriorityTotal += q[curr].qkey;
+      tmp = q[curr].qprev;
+    }
+    
+    //kprintf("%d\n", readyQPriorityTotal);
+    
     // if there is no other process in the ready queue except null process switch to null process
     if(!readyQPriorityTotal) {
       if(optr->pstate == PRCURR) {
@@ -48,7 +56,7 @@ int resched()
       int rn = rand()%(readyQPriorityTotal-1);  
       
       // get tail entry of ready queue
-      int curr = q[rdytail].qprev;
+      curr = q[rdytail].qprev;
       int currPrio = q[curr].qkey;
       // if current priotity is non-zero (not null process) and greater than the random number generated
       // move to next process in the queue.
@@ -64,23 +72,9 @@ int resched()
       nptr->pstate = PRCURR;
       // remove process from the ready queue and
       dequeue(curr);
-      //q[q[curr].qprev].qnext = q[curr].qnext;
-      //q[q[curr].qnext].qprev = q[curr].qprev;
-      readyQPriorityTotal -= currPrio;
      
-     /*
-      struct qent *rmv = &q[curr];
-	    q[rmv->qprev].qnext = rmv->qnext;
-	    q[rmv->qnext].qprev = rmv->qprev;
-     */
     }
     
-    // put the old process back into the ready queue
-    if (optr->pstate == PRCURR) {
-		  optr->pstate = PRREADY;
-		  insert(currpid,rdyhead,optr->pprio);
-      readyQPriorityTotal += optr->pprio;
-	  }
     #ifdef	RTCLOCK
   	preempt = QUANTUM;		/* reset preemption counter	*/
     #endif
