@@ -17,7 +17,7 @@ SYSCALL	sleep(int n)
 	if (n<0 || clkruns==0)
 		return(SYSERR);
 	if (n == 0) {
-	        disable(ps);
+    disable(ps);
 		resched();
 		restore(ps);
 		return(OK);

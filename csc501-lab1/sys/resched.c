@@ -23,39 +23,53 @@ int resched()
 {
 	register struct	pentry	*optr;	/* pointer to old process entry */
 	register struct	pentry	*nptr;	/* pointer to new process entry */
-
+  
   if(activeScheduler == RANDOMSCHED) {// random scheduler
+    // get total of priority in ready queue
+    int tmp = getlast(rdytail);
+    while(tmp) {
+      readyQPriorityTotal += q[tmp].qkey;
+      tmp = q[tmp].qprev;
+    }
+    
+    kprintf("%d\n", readyQPriorityTotal);
     // get the PCB for currently running process
     optr = &proctab[currpid];
-    // if there is other process in the ready queue except null process switch to null process
+    // if there is no other process in the ready queue except null process switch to null process
     if(!readyQPriorityTotal) {
-      nptr = &proctab[getfirst(rdyhead)];
-      nptr->pstate = PRCURR;
+      if(optr->pstate == PRCURR) {
+        return(OK);
+      } else {
+        nptr = &proctab[getfirst(rdyhead)];// get null process
+        nptr->pstate = PRCURR;
+      }
     } else {
-      // generate a random number between (inclusive) : 0 - (readyQPriorityTotal - 1)
+      // generate a random number between (inclusive) : 0 <--> (readyQPriorityTotal - 1)
       int rn = rand()%(readyQPriorityTotal-1);  
       
       // get tail entry of ready queue
-      int tail = q[rdytail].qprev;
-      int currPrio = q[tail].qkey;
+      int curr = q[rdytail].qprev;
+      int currPrio = q[curr].qkey;
       // if current priotity is non-zero (not null process) and greater than the random number generated
       // move to next process in the queue.
       while(currPrio && rn >= currPrio) {
+        //kprintf("pid:%d prio:%d rn:%d\n", curr, currPrio, rn);
         rn -= currPrio;
-        tail = q[tail].qprev;
-        currPrio = q[tail].qkey;
+        curr = q[curr].qprev;
+        currPrio = q[curr].qkey;
       }
       // make it the current process
-      currpid = tail;
-      nptr = &proctab[tail];
+      currpid = curr;
+      nptr = &proctab[curr];
       nptr->pstate = PRCURR;
       // remove process from the ready queue and
-      q[q[tail].qprev].qnext = q[tail].qnext;
-      q[q[tail].qnext].qprev = q[tail].qprev;
+      dequeue(curr);
+      //q[q[curr].qprev].qnext = q[curr].qnext;
+      //q[q[curr].qnext].qprev = q[curr].qprev;
       readyQPriorityTotal -= currPrio;
      
      /*
-      struct qent *rmv = &q[tail];
+      struct qent *rmv = &q[curr];
 	    q[rmv->qprev].qnext = rmv->qnext;
 	    q[rmv->qnext].qprev = rmv->qprev;
      */
@@ -67,7 +81,9 @@ int resched()
 		  insert(currpid,rdyhead,optr->pprio);
       readyQPriorityTotal += optr->pprio;
 	  }
-    
+    #ifdef	RTCLOCK
+  	preempt = QUANTUM;		/* reset preemption counter	*/
+    #endif
     
   } else if(activeScheduler == LINUXSCHED) {//linux like scheduler
     //TODO

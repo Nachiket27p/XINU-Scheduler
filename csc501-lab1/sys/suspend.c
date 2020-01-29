@@ -26,12 +26,6 @@ SYSCALL	suspend(int pid)
 	if (pptr->pstate == PRREADY) {
 		pptr->pstate = PRSUSP;
 		dequeue(pid);
-    
-    // If process is being removed from the ready queue
-    // and random scheduler is being used than decrease the priority total
-    if(getschedclass() == RANDOMSCHED){
-      decPrioTot(pptr->pprio);
-    }
 	}
 	else {
 		pptr->pstate = PRSUSP;

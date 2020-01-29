@@ -196,3 +196,81 @@ git add -A
 git commit -m "implemented random scheduler but not tested"
 git push origin master
 clear
+cd csc501-lab1/
+grep restore *
+cd sys/
+grep restore *
+grep "short *ps"*
+grep "short *ps" *
+grep ps *
+grep STATWORD *
+cd ..
+cd h/
+grep STATWORD *
+gcc --version
+grep inline *
+cd
+git add -A
+git commit -m "added notes of where to add code"
+git push origin master
+cd csc501-lab1/
+cs sys/
+cd sys/
+ls
+cd ..
+cd compile/
+make depend && make
+make run
+cqmak
+maclearun
+asdasdadadaddddasdasdasd
+asdclear
+clear
+exit
+cd csc501-lab1/compile/
+make depend && make && make run
+clear
+exit
+clear
+cd csc501-lab1/compile/
+make depend && make && make run
+asdasdasd
+clear
+exit
+cd csc501-lab1/compile/
+make depend && make && make run
+clear
+exit
+cd csc501-lab1/compile/
+make depend && make && make run
+ls
+clera
+clear
+make depend && make && make run
+make run
+cq
+exit
+cd csc501-lab1/compile/
+make depend && make && make run
+cleart
+clear
+exit
+clea
+clear
+cd csc501-lab1/compile/
+make depend && make && make run
+exit
+cd csc501-lab1/
+grep preempt *
+cd sys/
+grep preempt *
+cd ..
+cd compile/
+make depend && make && make run
+top
+clear
+cd csc501-lab1/sys/
+cd ..
+cd compile/
+make depend && make && make run
+exit
