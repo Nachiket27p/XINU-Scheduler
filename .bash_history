@@ -303,3 +303,17 @@ cd csc501-lab1/compile/
 make depend && make && make run
 cd
 exit
+gdb xinu.elf 
+cd
+clear
+cd csc501-lab1/compile/
+gdb xinu.elf 
+cd csc501-lab1/compile/
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+make depend && make && make run
+exit

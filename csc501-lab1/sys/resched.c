@@ -6,8 +6,15 @@
 #include <q.h>
 #include <lab1.h>
 
-LOCAL int activeScheduler = DEFAULTSCHED; // which scheduler is bing used currently
-LOCAL int readyQPriorityTotal = 0; // used for random scheduler
+// which scheduler is bing used currently
+LOCAL int activeScheduler = DEFAULTSCHED;
+// used for random scheduler
+LOCAL int readyQPriorityTotal = 0;
+
+// *** curr = pointer to process
+// *** currPrio = Priority of current process being pointed to by curr
+// *** rn = random number generated using rn
+int curr, currPrio, rn;
 
 unsigned long currSP;	/* REAL sp of current process */
 extern int ctxsw(int, int, int, int);
@@ -29,43 +36,44 @@ int resched()
   if(activeScheduler == RANDOMSCHED) {// random scheduler
     // get the PCB for currently running process
     optr = &proctab[currpid];
+    
     // put the old process back into the ready queue
     if (optr->pstate == PRCURR) {
 		  optr->pstate = PRREADY;
 		  insert(currpid,rdyhead,optr->pprio);
 	  }
-    // get total of priority in ready queue
-    int curr = q[rdytail].qprev;
-    while(curr) {
-      readyQPriorityTotal += q[curr].qkey;
-      tmp = q[curr].qprev;
-    }
     
-    //kprintf("%d\n", readyQPriorityTotal);
+    // get total of priority in ready queue
+    curr = q[rdytail].qprev;
+    currPrio = q[curr].qkey;
+    while(currPrio) {
+      readyQPriorityTotal += currPrio;
+      curr = q[curr].qprev;
+      currPrio = q[curr].qkey;
+    }
     
     // if there is no other process in the ready queue except null process switch to null process
     if(!readyQPriorityTotal) {
-      if(optr->pstate == PRCURR) {
-        return(OK);
-      } else {
-        nptr = &proctab[getfirst(rdyhead)];// get null process
-        nptr->pstate = PRCURR;
-      }
+      currpid = NULLPROC;
+      // remove null process from the ready queue
+      nptr = &proctab[getfirst(rdyhead)];
+      nptr->pstate = PRCURR;
     } else {
       // generate a random number between (inclusive) : 0 <--> (readyQPriorityTotal - 1)
-      int rn = rand()%(readyQPriorityTotal-1);  
+      rn = rand()%(readyQPriorityTotal-1);  
       
       // get tail entry of ready queue
       curr = q[rdytail].qprev;
-      int currPrio = q[curr].qkey;
+      currPrio = q[curr].qkey;
+      
       // if current priotity is non-zero (not null process) and greater than the random number generated
       // move to next process in the queue.
       while(currPrio && rn >= currPrio) {
-        //kprintf("pid:%d prio:%d rn:%d\n", curr, currPrio, rn);
         rn -= currPrio;
         curr = q[curr].qprev;
         currPrio = q[curr].qkey;
       }
+      
       // make it the current process
       currpid = curr;
       nptr = &proctab[curr];
