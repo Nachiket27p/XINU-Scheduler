@@ -324,3 +324,8 @@ git add -A
 git commit -m "Random scheduler fully functional"
 git push master origin
 git push origin master
+ls
+git add -A
+git commit -m "vsc testing"
+xit
+exit

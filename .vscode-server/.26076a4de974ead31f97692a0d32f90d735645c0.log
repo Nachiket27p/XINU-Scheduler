@@ -30,3 +30,16 @@ Cancelling previous shutdown timeout
 [20:38:52] [127.0.0.1][124266fa][ManagementConnection] New connection established.
 [20:38:52] [127.0.0.1][3b56d407][ExtensionHostConnection] New connection established.
 [20:38:52] [127.0.0.1][3b56d407][ExtensionHostConnection] <8091> Launched Extension Host Process.
+[20:42:53] [127.0.0.1][124266fa][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+[20:42:54] [127.0.0.1][3b56d407][ExtensionHostConnection] <8091> Extension Host Process exited with code: 0, signal: null.
+Cancelling previous shutdown timeout
+[20:42:54] Cancelling previous shutdown timeout
+Last EH closed, waiting before shutting down
+[20:42:54] Last EH closed, waiting before shutting down
+Got delay-shutdown request while in shutdown timeout, delaying
+[20:44:14] Got delay-shutdown request while in shutdown timeout, delaying
+Cancelling previous shutdown timeout
+[20:44:14] Cancelling previous shutdown timeout
+[20:44:14] [127.0.0.1][2bcdaa19][ManagementConnection] New connection established.
+[20:44:14] [127.0.0.1][3ecf66e2][ExtensionHostConnection] New connection established.
+[20:44:14] [127.0.0.1][3ecf66e2][ExtensionHostConnection] <9644> Launched Extension Host Process.

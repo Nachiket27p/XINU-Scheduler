@@ -15,7 +15,6 @@ volatile int c_cnt = 0;
 volatile int s = 0;
 
 int main() {
-	
 /*
   prA = create(proc_a, 2000, 10, "proc A", 1, 'A');
 	prB = create(proc_b, 2000, 20, "proc B", 1, 'B');
