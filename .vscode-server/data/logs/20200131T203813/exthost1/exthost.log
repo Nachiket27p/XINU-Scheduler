@@ -1,0 +1,18 @@
+[2020-01-31 20:38:15.827] [exthost] [info] extension host started
+[2020-01-31 20:38:15.920] [exthost] [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch {"startup":true,"extensionId":{"value":"vscode.debug-auto-launch","_lower":"vscode.debug-auto-launch"},"activationEvent":"*"}
+[2020-01-31 20:38:15.921] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/nnpatel5/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/debug-auto-launch/dist/extension
+[2020-01-31 20:38:15.930] [exthost] [info] ExtensionService#_doActivateExtension vscode.emmet {"startup":true,"extensionId":{"value":"vscode.emmet","_lower":"vscode.emmet"},"activationEvent":"*"}
+[2020-01-31 20:38:15.930] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/nnpatel5/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/emmet/dist/extension
+[2020-01-31 20:38:15.997] [exthost] [info] ExtensionService#_doActivateExtension vscode.git {"startup":true,"extensionId":{"value":"vscode.git","_lower":"vscode.git"},"activationEvent":"*"}
+[2020-01-31 20:38:15.997] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/nnpatel5/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/git/dist/main
+[2020-01-31 20:38:16.111] [exthost] [info] ExtensionService#_doActivateExtension vscode.merge-conflict {"startup":true,"extensionId":{"value":"vscode.merge-conflict","_lower":"vscode.merge-conflict"},"activationEvent":"*"}
+[2020-01-31 20:38:16.111] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/nnpatel5/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/merge-conflict/dist/extension
+[2020-01-31 20:38:16.129] [exthost] [info] ExtensionService#_doActivateExtension vscode.search-result {"startup":true,"extensionId":{"value":"vscode.search-result","_lower":"vscode.search-result"},"activationEvent":"*"}
+[2020-01-31 20:38:16.130] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/nnpatel5/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/search-result/dist/extension.js
+[2020-01-31 20:38:16.134] [exthost] [info] eager extensions activated
+[2020-01-31 20:38:22.256] [exthost] [info] ExtensionService#_doActivateExtension vscode.configuration-editing {"startup":false,"extensionId":{"value":"vscode.configuration-editing","_lower":"vscode.configuration-editing"},"activationEvent":"onLanguage:jsonc"}
+[2020-01-31 20:38:22.256] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/nnpatel5/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/configuration-editing/dist/extension
+[2020-01-31 20:38:22.264] [exthost] [info] ExtensionService#_doActivateExtension vscode.json-language-features {"startup":false,"extensionId":{"value":"vscode.json-language-features","_lower":"vscode.json-language-features"},"activationEvent":"onLanguage:jsonc"}
+[2020-01-31 20:38:22.264] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/nnpatel5/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/json-language-features/client/dist/jsonMain
+[2020-01-31 20:38:22.325] [exthost] [info] ExtensionService#_doActivateExtension vscode.typescript-language-features {"startup":false,"extensionId":{"value":"vscode.typescript-language-features","_lower":"vscode.typescript-language-features"},"activationEvent":"onLanguage:jsonc"}
+[2020-01-31 20:38:22.325] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/nnpatel5/.vscode-server/bin/26076a4de974ead31f97692a0d32f90d735645c0/extensions/typescript-language-features/dist/extension

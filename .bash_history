@@ -317,3 +317,10 @@ make depend && make && make run
 clear
 make depend && make && make run
 exit
+cd csc501-lab1/compile/
+make depend && make && make run
+cd
+git add -A
+git commit -m "Random scheduler fully functional"
+git push master origin
+git push origin master
