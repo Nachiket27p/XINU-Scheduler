@@ -332,3 +332,51 @@ exit
 git add -A
 git commit -m "testing vsc"
 git push origin master
+ls
+cd csc501-lab1/sys/
+grep preempt *
+grep QUANTUM *
+cd ..
+cd h/
+grep QUANTUM *
+ls
+grep rdyhead *
+cd ..
+cd sys/
+grep rdyhead *
+grep newqueue *
+cd
+git add -A
+git commit -m "started linux scheduler implementation"
+git push origin master
+ls
+clear
+ls
+clear
+ls
+clear
+cd
+clear
+cs csc501-lab1/compile/
+cd csc501-lab1/compile/
+clear
+make depend
+make
+make depend
+make
+make run
+clear
+cd csc501-lab1/compile/
+make depend
+make
+male run
+make run
+grep null *
+cd ..
+clear
+cd sys/
+grep null *
+cd ..
+cd compile/
+make depend && make && make run
+clear

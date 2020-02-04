@@ -11,7 +11,7 @@ LOCAL int activeScheduler = DEFAULTSCHED;
 // used for random scheduler
 LOCAL int readyQPriorityTotal = 0;
 // use for linux like scheduler to keep track remaining epoch
-extern int epoch = 0;
+int epoch = 0;
 
 // *** curr = pointer to process
 // *** currPrio = Priority of current process being pointed to by curr
@@ -91,25 +91,100 @@ int resched()
     
   } else if(activeScheduler == LINUXSCHED) {//linux like scheduler
     optr = &proctab[currpid];
-    //optr->pcounter = preempt;
-    // if the process has used up its quantum and
-    // change sate of the process in pcb to W4NE
-    if(preempt == 0) {
-      if(optr->pstate == PRCURR) {
-        optr->pstate = W4NE;
-      }
+    //kprintf("lnx old: %d\n", currpid);
+    // if the process instiating the rescheduling than change its state
+    // to ready and place back in ready queue because it should ready to
+    // run at all times regardless of epoch.
+    if(currpid == NULLPROC) {
+      //kprintf("null proc entered\n");
+      optr->pstate = PRREADY;
+      insert(currpid, rdyhead, optr->pprio + optr->pcounter);
+
+    } else if(preempt <= 0 && optr->pstate == PRCURR) {
+      //kprintf("0 & current\n");
+      //optr->pcounter = preempt;
+      // if the process has used up its quantum than
+      // change the sate of the process in pcb (proctab) to 'W4NE'
+      // only set state to 'W4NE' if the process state is 'PRCURR'
+      optr->pstate = W4NE;
+
     } else {
+      //kprintf("positive preempt : %d\n", preempt);
+      // update the amount of quantum the process remaining using the preempt value
       optr->pcounter = preempt;
       // if the status of the process is still current than place back
-      // into ready queue
+      // into ready queue with a new goodness value
       if(optr->pstate == PRCURR) {
         //int goodness = optr->pprio + optr->pcounter;
+        optr->pstate = PRREADY;
         insert(currpid, rdyhead, optr->pprio + optr->pcounter);
       }
     }
+    
+    // sum up the amount of quantum left by adding up the counter (remaining quantum)
+    // of all processes in the ready queue
+    epoch = 0;
+    curr = q[rdytail].qprev;
+    while(q[curr].qkey) {
+      //kprintf("%d, ", curr);
+      epoch += proctab[curr].pcounter;
+      curr = q[curr].qprev;
+    }
+    //kprintf("\n");
+
+    // if ther is a process with remaining quantum in the queue
+    // dequeu the process with the highes quantum
+    if(epoch) {
+      //kprintf("non-zero epoch : %d\n", epoch);
+      currpid = getlast(rdytail);
+      nptr = &proctab[currpid];
+      nptr->pstate = PRCURR;
+      preempt = nptr->pcounter;
+
+    } else {
+      //kprintf("zero epoch\n");
+      // either a new epoch needs to being or there are no processes that can run
+      // so the null process will be scheduled.
+      
+      // first iterate through the proc table and check
+      // if there are processes waiting for a new epoch
+      int pid;
+      struct	pentry	*procIter;
+      for(pid = 1; pid < NPROC; pid++) {
+          procIter = &proctab[pid];
+          if(procIter->pstate == W4NE) {
+            procIter->pquantum = (procIter->pcounter/2) + procIter->pprio;
+            procIter->pcounter = procIter->pquantum;
+            procIter->pstate = PRREADY;
+            insert(pid, rdyhead, procIter->pprio + procIter->pcounter);
+            epoch += procIter->pcounter;
+          }
+      }
+
+      // now check if the epoch value is non zero, if so than processes have
+      // been added to the ready queue
+      if(epoch) {
+        // get the process with the highest goodness and schedule it
+        currpid = getlast(rdytail);
+        nptr = &proctab[currpid];
+        preempt = nptr->pcounter;
+        nptr->pstate = PRCURR;
+      } else {
+        // if epoc was zero than nothign was added to the ready queue so
+        // the null process must be executed.
+        // remove null process from the ready queue and run it
+        currpid = getfirst(rdyhead);
+        nptr = &proctab[currpid];
+        nptr->pstate = PRCURR;
+
+        #ifdef	RTCLOCK
+        preempt = QUANTUM;		/* reset preemption counter	*/
+        #endif
+      }
+    }
+
     //TODO
   } else {//default scheduler
-  
     /* no switch needed if current process priority higher than next*/
   	if (((optr = &proctab[currpid])->pstate == PRCURR) && (lastkey(rdytail)<optr->pprio)) {
   		return(OK);
@@ -117,12 +192,14 @@ int resched()
   	
   	/* force context switch */
   	if (optr->pstate == PRCURR) {
+      //kprintf("def old : %d\n", currpid);
   		optr->pstate = PRREADY;
-  		insert(currpid,rdyhead,optr->pprio);
+  		insert(currpid, rdyhead, optr->pprio);
   	}
   
   	/* remove highest priority process at end of ready list */
   	nptr = &proctab[ (currpid = getlast(rdytail)) ];
+    //kprintf("def new: %d\n", currpid);
   	nptr->pstate = PRCURR;		/* mark it currently running	*/
     #ifdef	RTCLOCK
   	preempt = QUANTUM;		/* reset preemption counter	*/

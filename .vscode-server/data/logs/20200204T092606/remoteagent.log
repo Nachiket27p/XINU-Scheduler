@@ -18,3 +18,7 @@
 [2020-02-04 12:08:46.356] [remoteagent] [info] [127.0.0.1][5158af68][ManagementConnection] Another client has connected, will shorten the wait for reconnection 5m before disposing...
 [2020-02-04 12:08:46.357] [remoteagent] [info] [127.0.0.1][5158af68][ManagementConnection] The client has reconnected.
 [2020-02-04 12:08:46.362] [remoteagent] [info] [127.0.0.1][bf8c1ed5][ExtensionHostConnection] The client has reconnected.
+[2020-02-04 12:41:45.029] [remoteagent] [info] [127.0.0.1][5158af68][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+[2020-02-04 12:41:46.095] [remoteagent] [info] [127.0.0.1][bf8c1ed5][ExtensionHostConnection] <24394> Extension Host Process exited with code: 0, signal: null.
+[2020-02-04 12:41:46.096] [remoteagent] [info] Last EH closed, waiting before shutting down
+[2020-02-04 12:46:46.134] [remoteagent] [info] Last EH closed, shutting down
