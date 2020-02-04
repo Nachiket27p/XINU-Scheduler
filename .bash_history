@@ -426,3 +426,17 @@ git add -A
 git rm -r .vscode-server
 git commit -m "removed .vscode-server folder"
 git push origin master
+cd csc501-lab1/compile/
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+cd
+git add -A
+git commit -m "removed .vscode-server"
+git push origin master
+clear
