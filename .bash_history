@@ -380,3 +380,49 @@ cd ..
 cd compile/
 make depend && make && make run
 clear
+make depend && make && make run
+cd csc501-lab1/compile/
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+make depend && make && make run
+clera
+clear
+make depend && make && make run
+clear
+make depend && make && make run
+clear
+make run
+clear
+make run
+clear
+cd ..
+cd sys/
+grep preempt *
+cd
+clear
+git add -A
+
+git push orign master
+git push origin master
+clear
+git add -A
+git commit -m "modified ready.c to prevent unnecessarily calling resched() when linux scheduler is used"
+git push origin master
+clear
+git add -A
+git commit -m "removed .vscode-server from repository"
+git push origin master
+git rm -r .vscode-server
+git commit -m "removed .vscode-server folder"
+git add -A
+git rm -r .vscode-server
+git commit -m "removed .vscode-server folder"
+git push origin master
