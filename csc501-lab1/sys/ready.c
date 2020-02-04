@@ -18,6 +18,7 @@ int ready(int pid, int resch)
 		return(SYSERR);
 
 	pptr = &proctab[pid];
+
 	if(getschedclass() == LINUXSCHED) {
 		pptr->pstate = W4NE;
 	} else {
@@ -25,8 +26,11 @@ int ready(int pid, int resch)
 		insert(pid,rdyhead,pptr->pprio);
 	}
 	
-  
-	if (resch)
+	// PA1
+	// If LINUXSCHED is being used than a new process which is ready to run
+	// is not allowed to run until the next epoch, so there is no need to
+	// call resched(). Unless the current process is the null process.
+	if (resch && (getschedclass() != LINUXSCHED || currpid == NULLPROC))
 		resched();
 	return(OK);
 }
