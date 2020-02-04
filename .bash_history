@@ -329,3 +329,6 @@ git add -A
 git commit -m "vsc testing"
 xit
 exit
+git add -A
+git commit -m "testing vsc"
+git push origin master

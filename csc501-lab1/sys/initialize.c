@@ -170,6 +170,10 @@ LOCAL int sysinit()
 	pptr->paddr = (WORD) nulluser;
 	pptr->pargs = 0;
 	pptr->pprio = 0;
+	// PA1
+	pptr->pquantum = 0;
+	pptr->pcounter = 0;
+	// PA1
 	currpid = NULLPROC;
 
 	for (i=0 ; i<NSEM ; i++) {	/* initialize semaphores */

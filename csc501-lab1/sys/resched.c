@@ -10,6 +10,8 @@
 LOCAL int activeScheduler = DEFAULTSCHED;
 // used for random scheduler
 LOCAL int readyQPriorityTotal = 0;
+// use for linux like scheduler to keep track remaining epoch
+extern int epoch = 0;
 
 // *** curr = pointer to process
 // *** currPrio = Priority of current process being pointed to by curr
@@ -88,6 +90,23 @@ int resched()
     #endif
     
   } else if(activeScheduler == LINUXSCHED) {//linux like scheduler
+    optr = &proctab[currpid];
+    //optr->pcounter = preempt;
+    // if the process has used up its quantum and
+    // change sate of the process in pcb to W4NE
+    if(preempt == 0) {
+      if(optr->pstate == PRCURR) {
+        optr->pstate = W4NE;
+      }
+    } else {
+      optr->pcounter = preempt;
+      // if the status of the process is still current than place back
+      // into ready queue
+      if(optr->pstate == PRCURR) {
+        //int goodness = optr->pprio + optr->pcounter;
+        insert(currpid, rdyhead, optr->pprio + optr->pcounter);
+      }
+    }
     //TODO
   } else {//default scheduler
   

@@ -28,6 +28,8 @@
 #define	PRWAIT		'\007'		/* process is on semaphore queue*/
 #define	PRTRECV		'\010'		/* process is timing a receive	*/
 
+#define W4NE		'\011'		/* process is waiting for new epoch */
+
 /* miscellaneous process definitions */
 
 #define	PNMLEN		16		/* length of process "name"	*/
@@ -60,6 +62,9 @@ struct	pentry	{
 	int	fildes[_NFILE];		/* file - device translation	*/
 	int	ppagedev;		/* pageing dgram device		*/
 	int	pwaitret;
+	//PA1
+	int pquantum;
+	int pcounter;
 };
 
 
