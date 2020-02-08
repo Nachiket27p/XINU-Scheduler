@@ -485,6 +485,22 @@ write.o: ../sys/write.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/io.h
 xdone.o: ../sys/xdone.c /usr/include/stdc-predef.h ../h/kernel.h \
  ../h/systypes.h ../h/conf.h ../h/mem.h ../h/stdio.h
+chprio.o: ../TMP/chprio.c /usr/include/stdc-predef.h ../h/conf.h \
+ ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/proc.h ../h/q.h \
+ ../h/stdio.h ../h/lab1.h
+create.o: ../TMP/create.c /usr/include/stdc-predef.h ../h/conf.h \
+ ../h/i386.h ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/proc.h \
+ ../h/sem.h ../h/io.h ../h/stdio.h
+initialize.o: ../TMP/initialize.c /usr/include/stdc-predef.h ../h/conf.h \
+ ../h/i386.h ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/mark.h \
+ ../h/bufpool.h ../h/proc.h ../h/sem.h ../h/sleep.h ../h/tty.h ../h/q.h \
+ ../h/io.h ../h/stdio.h
+ready.o: ../TMP/ready.c /usr/include/stdc-predef.h ../h/conf.h \
+ ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/proc.h ../h/q.h \
+ ../h/lab1.h
+resched.o: ../TMP/resched.c /usr/include/stdc-predef.h ../h/conf.h \
+ ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/proc.h ../h/q.h \
+ ../h/lab1.h
 ttyalloc.o: ../tty/ttyalloc.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/tty.h ../h/stdio.h
 ttycntl.o: ../tty/ttycntl.c /usr/include/stdc-predef.h ../h/conf.h \
