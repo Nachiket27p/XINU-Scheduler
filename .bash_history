@@ -523,3 +523,16 @@ cd compile/
 make depend && make  && make run
 cd compile/
 make depend && make  && make run
+cd
+cd csc501-lab1/compile/
+make depend && make  && make run
+make run
+make depend && make  && make run
+cd
+git add -A
+git commit -m "using srand() to generate random sequence each time"
+git push origin master
+git add -A
+git commit -m "using srand() to generate random sequence each time"
+git push origin master
+clear

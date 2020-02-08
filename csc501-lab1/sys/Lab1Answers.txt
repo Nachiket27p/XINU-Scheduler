@@ -1,0 +1,78 @@
+1.
+    Random Scheduler:
+      Advantages:
+        * It prevents starvations to some extent.
+        * Employs a fiar scheduling policy so that proceses get an opportunity to run,
+            but with respect to their priority so higher priority processes get a greater
+            chance than lower ones.
+
+      Disadvantage:
+        *  It can create situations where a low priority process has to wait a long
+            time before being scheduled, if there are lots of processes with high priority.
+        * The randomness can create scenarios where a hieher priority process might get
+            held up if a low priority gets scheduled.
+        * It does not provide fair scheduling for processes that volunteeraly give up the
+            cpu time such as IO bound processes, because it keeps no history of its past
+            activity.
+
+    Linux Like Scheduler:
+      Advantages:
+        * It completely eleminates starvation by 
+            using an epoch based system.
+        * It also provides a fair scheduling, for instance a process which didn't use up,
+            it's quantum in the previous epoch will have a higher goodness to run in the
+            next epoch. This mean processes that perform IO operations will be given a
+            fair opportunity to run.
+
+      Disadvantages:
+        * It has a more complicated implementation which creates a greater overhead
+            when a context switch occurs because when a new epoch starts to determine
+            which process to run next which requires iterating through all the processes.
+        * Processes created in the middle of the epoch have to wait until the next epoch
+            to run.
+
+    Original Xinu Scheduler:
+      Advantages:
+        * Very simple implementation with very small overhead in choosing next process to
+            run.
+
+      Disadvantages:
+        * Creates starvation, where only high priority process can run and a lower proirity 
+            process will never get a chance.
+
+2.
+    * The original XINU Scheduler runs the null process whan there are no other processes
+        left in the ready queue.
+
+    * The Random scheduler runs the null process if there are no other processes left in
+        the ready queue.
+
+    * The Linux Like scheduler runs the null process if there there are no ready processes
+        in the current epoch with a remaining quantum greater than 0, and if the the new
+        epoch also does not contain any processes that have a remaining quantum. This mean
+        the null process only runs if ther are no other processes ready to run.
+
+3.
+    * If we want to run P1, P2, and P3 with 30%, 20%, and 50% respectively, we need to give
+        them the following priorities;
+                           
+                            Processes   |    Priority
+                                P1      |       30
+                                P2      |       20
+                                P3      |       50
+    
+    * Assuming there are P1, P2, ..., Pn processes and that the sum of the CPU time allocation
+        adds up to 100% than the priority needed for the n'th process is given by the following;
+                        
+        
+        Pn Priority = (CPU % for n'th process) / (lowest CPU % out of all the processes)
+        
+        This means if you have for example 5 processes P1, P2, P3, P4, and P5 with
+        CPU allocation 0.5%, 1.5%, 22%, 46%, 30% respectively, than they would have
+        the following prioeities;
+                            Processes   |    Priority
+                                P1      |       1
+                                P2      |       3
+                                P3      |       44
+                                P4      |       92
+                                P5      |       70
