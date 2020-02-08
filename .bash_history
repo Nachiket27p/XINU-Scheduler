@@ -467,3 +467,59 @@ make depend && make  && make run
 cd ..
 cd sys/
 grep preempt *
+cd 
+cd csc501-lab1/compile/
+cd ..
+cd sys/
+grep preempt *
+cd
+git add -A
+git commit -m "changed chprio.c to update priority in ready queue when using random scheduler"
+git push origin master
+git rm -r --cached .cache/
+git commit -m "removed .cache directory"
+git push origin master
+git commit -m "added .cache to gitignore"
+git add -A
+git commit -m "added .cache to gitignore"
+git push origin master
+cd
+cd csc501-lab1/compile/
+make depend && make  && make run
+clear
+make depend && make  && make run
+clear
+make depend && make  && make run
+cd
+cd csc501-lab1/compile/
+make depend && make  && make run
+make run
+make depend && make  && make run
+make run
+make depend && make  && make run
+make run
+make depend && make  && make run
+cd ..
+cd sys/
+grep ctr1000 *
+cd ..
+cd h/
+grep ctr1000 *
+cd ..
+cd
+cd csc501-lab1/sys/
+make depend && make  && make run
+cd ..
+cd compile/
+make depend && make  && make run
+make run
+make depend && make  && make run
+make run
+cd ..
+cd sys/
+grep srand *
+cd ..
+cd compile/
+make depend && make  && make run
+cd compile/
+make depend && make  && make run

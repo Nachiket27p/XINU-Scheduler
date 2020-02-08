@@ -30,8 +30,6 @@ extern int ctxsw(int, int, int, int);
  */
 int resched()
 {
-    readyQPriorityTotal = 0;
-
     register struct pentry *optr; /* pointer to old process entry */
     register struct pentry *nptr; /* pointer to new process entry */
 
@@ -39,7 +37,7 @@ int resched()
     { // random scheduler
         // get the PCB for currently running process
         optr = &proctab[currpid];
-
+        int oldprocid = currpid;
         // put the old process back into the ready queue
         if (optr->pstate == PRCURR)
         {
@@ -48,6 +46,7 @@ int resched()
         }
 
         // get total of priority in ready queue
+        readyQPriorityTotal = 0;
         curr = q[rdytail].qprev;
         currPrio = q[curr].qkey;
         while (currPrio)
@@ -76,7 +75,7 @@ int resched()
 
             // if current priotity is non-zero (not null process) and greater than the random number generated
             // move to next process in the queue.
-            while (currPrio && rn >= currPrio)
+            while (rn >= currPrio)
             {
                 rn -= currPrio;
                 curr = q[curr].qprev;
@@ -84,11 +83,9 @@ int resched()
             }
 
             // make it the current process
-            currpid = curr;
-            nptr = &proctab[curr];
+            nptr = &proctab[(currpid = dequeue(curr))];
             nptr->pstate = PRCURR;
-            // remove process from the ready queue and
-            dequeue(curr);
+
         }
 
 // #ifdef RTCLOCK
@@ -98,20 +95,16 @@ int resched()
     else if (activeScheduler == LINUXSCHED)
     { //linux like scheduler
         optr = &proctab[currpid];
-        //kprintf("lnx old: %d\n", currpid);
         // if the process instiating the rescheduling than change its state
         // to ready and place back in ready queue because it should ready to
         // run at all times regardless of epoch.
         if (currpid == NULLPROC)
         {
-            //kprintf("null proc entered\n");
             optr->pstate = PRREADY;
             insert(currpid, rdyhead, optr->pprio + optr->pcounter);
         }
         else if (preempt <= 0 && optr->pstate == PRCURR)
         {
-            //kprintf("0 & current\n");
-            //optr->pcounter = preempt;
             // if the process has used up its quantum than
             // change the sate of the process in pcb (proctab) to 'W4NE'
             // only set state to 'W4NE' if the process state is 'PRCURR'
@@ -119,14 +112,12 @@ int resched()
         }
         else
         {
-            //kprintf("positive preempt : %d\n", preempt);
             // update the amount of quantum the process remaining using the preempt value
             optr->pcounter = preempt;
             // if the status of the process is still current than place back
             // into ready queue with a new goodness value
             if (optr->pstate == PRCURR)
             {
-                //int goodness = optr->pprio + optr->pcounter;
                 optr->pstate = PRREADY;
                 insert(currpid, rdyhead, optr->pprio + optr->pcounter);
             }
@@ -138,17 +129,14 @@ int resched()
         curr = q[rdytail].qprev;
         while (q[curr].qkey)
         {
-            //kprintf("%d, ", curr);
             epoch += proctab[curr].pcounter;
             curr = q[curr].qprev;
         }
-        //kprintf("\n");
 
         // if ther is a process with remaining quantum in the queue
         // dequeu the process with the highes quantum
         if (epoch)
         {
-            //kprintf("non-zero epoch : %d\n", epoch);
             currpid = getlast(rdytail);
             nptr = &proctab[currpid];
             nptr->pstate = PRCURR;
@@ -156,7 +144,6 @@ int resched()
         }
         else
         {
-            //kprintf("zero epoch\n");
             // either a new epoch needs to being or there are no processes that can run
             // so the null process will be scheduled.
 
@@ -202,7 +189,6 @@ int resched()
             }
         }
 
-        //TODO
     }
     else
     { //default scheduler
@@ -215,15 +201,14 @@ int resched()
         /* force context switch */
         if (optr->pstate == PRCURR)
         {
-            //kprintf("def old : %d\n", currpid);
             optr->pstate = PRREADY;
             insert(currpid, rdyhead, optr->pprio);
         }
 
         /* remove highest priority process at end of ready list */
         nptr = &proctab[(currpid = getlast(rdytail))];
-        //kprintf("def new: %d\n", currpid);
         nptr->pstate = PRCURR; /* mark it currently running	*/
+        
 #ifdef RTCLOCK
         preempt = QUANTUM; /* reset preemption counter	*/
 #endif
@@ -239,6 +224,9 @@ void setschedclass(int sched_class)
 {
     if (sched_class == RANDOMSCHED || sched_class == LINUXSCHED)
     {
+        if(sched_class == RANDOMSCHED) {
+            srand(ctr1000);
+        }
         activeScheduler = sched_class;
     }
 }

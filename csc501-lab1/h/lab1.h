@@ -10,3 +10,5 @@ extern int epoch;
 
 extern void incPrioTot(int prio);
 extern void decPrioTot(int prio);
+
+extern unsigned long	ctr1000;
