@@ -37,7 +37,7 @@ int resched()
     { // random scheduler
         // get the PCB for currently running process
         optr = &proctab[currpid];
-        int oldprocid = currpid;
+        
         // put the old process back into the ready queue
         if (optr->pstate == PRCURR)
         {
@@ -88,9 +88,6 @@ int resched()
 
         }
 
-// #ifdef RTCLOCK
-//         preempt = QUANTUM; /* reset preemption counter	*/
-// #endif
     }
     else if (activeScheduler == LINUXSCHED)
     { //linux like scheduler
