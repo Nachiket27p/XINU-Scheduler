@@ -15,26 +15,6 @@ volatile int c_cnt = 0;
 volatile int s = 0;
 
 int main() {
-/*
-  prA = create(proc_a, 2000, 10, "proc A", 1, 'A');
-	prB = create(proc_b, 2000, 20, "proc B", 1, 'B');
-  prC = create(proc_c, 2000, 30, "proc C", 1, 'C');
-  
-  ready(prA, 0);
-  ready(prB, 0);
-  ready(prC, 0);
-  
-  int tail = q[rdytail].qprev;
-  int tp = q[tail].qkey;
-  while(tp >= 0) {
-    kprintf("ptr  : %d\n", tail);
-    kprintf("prio : %d\n", q[tail].qkey);
-    tail = q[tail].qprev;
-    tp = q[tail].qkey;
-  }
-  kprintf("ptr  : %d\n", tail);
-  kprintf("prio : %d\n", q[tail].qkey);
-*/
 	int i;
 	int count = 0;
 	char buf[8];
@@ -58,11 +38,24 @@ int main() {
 		resume(prB);
 		resume(prC);
 		sleep(10);
+		
+		kprintf("\nTest Result: A = %d, B = %d, C = %d\n", a_cnt, b_cnt, c_cnt);
+		
+		a_cnt = 0;
+		b_cnt = 0;
+		c_cnt = 0;
+
+		chprio(prA, 30);
+		chprio(prB, 20);
+		chprio(prC, 10);
+
+		sleep(10);
 		kill(prA);
 		kill(prB);
 		kill(prC);
 
 		kprintf("\nTest Result: A = %d, B = %d, C = %d\n", a_cnt, b_cnt, c_cnt);
+
 	}
 	// LINUXSCHED
 	else {

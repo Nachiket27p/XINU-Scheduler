@@ -440,3 +440,30 @@ git add -A
 git commit -m "removed .vscode-server"
 git push origin master
 clear
+git add -A
+cd
+git add -A
+git commit -m "reconnected vsc through ssh"
+git push origin master
+exit
+cd
+cd csc501-lab1/compile/
+make run
+cd
+cd csc501-lab1/sys/
+grep onsleep *
+grep unsleep *
+grep ready *
+clear
+cs
+cd
+cd csc501-lab1/compile/
+make depend && make  && make run
+make run
+clear
+make depend && make  && make run
+make run
+make depend && make  && make run
+cd ..
+cd sys/
+grep preempt *
