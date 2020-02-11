@@ -19,7 +19,7 @@ int main() {
 	int count = 0;
 	char buf[8];
 
-	srand(123);
+	srand(1234);
 
 	kprintf("Please Input:\n");
 	while ((i = read(CONSOLE, buf, sizeof(buf))) < 1)
@@ -33,7 +33,7 @@ int main() {
 		setschedclass(RANDOMSCHED);
 		prA = create(proc_a, 2000, 10, "proc A", 1, 'A');
 		prB = create(proc_b, 2000, 20, "proc B", 1, 'B');
-		prC = create(proc_c, 2000, 50, "proc C", 1, 'C');
+		prC = create(proc_c, 2000, 30, "proc C", 1, 'C');
 		resume(prA);
 		resume(prB);
 		resume(prC);

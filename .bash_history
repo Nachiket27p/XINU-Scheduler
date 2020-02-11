@@ -536,3 +536,38 @@ git add -A
 git commit -m "using srand() to generate random sequence each time"
 git push origin master
 clear
+cd
+cd csc501-lab1/h/
+grep priority *
+grep max *
+grep * pprio *
+grep  pprio *
+cd ..
+cd sys/
+grep epoch *
+grep incPrioTot *
+grep decPrioTot *
+grep ctr1000 *
+clear
+cd
+git add -A
+cd
+ls
+tar czf csc501-lab1.tgz csc501-lab1
+git add -A
+git commit -m "created TMP directory and placed modified files in it, also created zip of project folder"
+git push origin master
+cd csc501-lab1/compile/
+make clean
+make depend && make && make run
+make run
+make clean
+cd
+clear
+tar czf csc501-lab1.tgz csc501-lab1
+git add -A
+git commit -m "cleaned project folder"
+git push master origin
+gir push origin master
+git push origin master
+clear

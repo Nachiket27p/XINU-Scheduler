@@ -67,9 +67,10 @@
         
         Pn Priority = (CPU % for n'th process) / (lowest CPU % out of all the processes)
         
-        This means if you have for example 5 processes P1, P2, P3, P4, and P5 with
-        CPU allocation 0.5%, 1.5%, 22%, 46%, 30% respectively, than they would have
-        the following prioeities;
+        Example:
+            This means if you have for example 5 processes P1, P2, P3, P4, and P5 with
+            CPU allocation 0.5%, 1.5%, 22%, 46%, 30% respectively, than they would have
+            the following prioeities;
                             Processes   |    Priority
                                 P1      |       1
                                 P2      |       3
